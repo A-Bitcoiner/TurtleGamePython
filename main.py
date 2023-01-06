@@ -1,84 +1,77 @@
 import turtle
 
-# Set up the game window
-wn = turtle.Screen()
-wn.bgcolor("white")
-wn.title("Maze Game")
+def draw_maze(t, maze):
+    for row in maze:
+        for col in row:
+            if col == "S":
+                t.color("green")
+            elif col == "E":
+                t.color("red")
+            elif col == "X":
+                t.color("black")
+            else:
+                t.color("white")
+            t.stamp()
+            t.forward(20)
+        t.backward(20 * len(row))
+        t.right(90)
+        t.forward(20)
+        t.left(90)
 
-# Create the maze
-maze = turtle.Turtle()
-maze.speed(0)
-maze.penup()
-maze.setposition(-200, -200)
-maze.pendown()
-maze.pensize(5)
-
-for i in range(4):
-    maze.forward(400)
-    maze.left(90)
-
-maze.penup()
-maze.setposition(0, 0)
-maze.pendown()
-maze.color("black")
-
-maze.left(90)
-maze.forward(50)
-maze.right(90)
-maze.forward(100)
-maze.left(90)
-maze.forward(50)
-maze.left(90)
-maze.forward(100)
-maze.right(90)
-maze.forward(50)
-maze.right(90)
-maze.forward(100)
-
-# Create the player turtle
-player = turtle.Turtle()
-player.color("blue")
-player.shape("turtle")
-player.penup()
-
-# Set the player's speed
-speed = 15
-
-# Define the functions for moving the player
-def move_left():
-    x = player.xcor()
-    x -= speed
-    if x < -200:
-        x = -200
-    player.setx(x)
-
-def move_right():
-    x = player.xcor()
-    x += speed
-    if x > 200:
-        x = 200
-    player.setx(x)
+def create_maze(maze):
+    t = turtle.Turtle(shape="square")
+    t.shapesize(0.5, 0.5, 2)
+    t.speed(0)
+    t.penup()
+    x, y = -250, 250
+    t.goto(x, y)
+    draw_maze(t, maze)
 
 def move_up():
-    y = player.ycor()
-    y += speed
-    if y > 200:
-        y = 200
-    player.sety(y)
+    player.setheading(0)
+    player.forward(20)
 
 def move_down():
-    y = player.ycor()
-    y -= speed
-    if y < -200:
-        y = -200
-    player.sety(y)
+    player.setheading(180)
+    player.forward(20)
 
-# Set up the keybindings
-wn.onkey(move_left, "Left")
-wn.onkey(move_right, "Right")
-wn.onkey(move_up, "Up")
-wn.onkey(move_down, "Down")
+def move_left():
+    player.setheading(270)
+    player.forward(20)
 
-# Keep the window open until the user closes it
-wn.listen()
-wn.mainloop()
+def move_right():
+    player.setheading(90)
+    player.forward(20)
+
+def setup_controls():
+    turtle.listen()
+    turtle.onkey(move_up, "Up")
+    turtle.onkey(move_down, "Down")
+    turtle.onkey(move_left, "Left")
+    turtle.onkey(move_right, "Right")
+def create_player():
+    t = turtle.Turtle(shape="circle")
+    t.color("blue")
+    t.penup()
+    t.speed(0)
+    return t
+
+maze = [
+    ["S", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X"],
+    ["X", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "X"],
+    ["X", "X", "X", "X", "X", "X", "X", "X", "X", "X", " ", "X"],
+    ["X", " ", " ", " ", " ", " ", " ", " ", " ", "X", " ", "X"],
+    ["X", " ", "X", "X", " ", "X", "X", "X", " ", "X", " ", "X"],
+    ["X", " ", "X", "X", " ", "X", "X", "X", " ", "X", " ", "X"],
+    ["X", " ", "X", "X", " ", "X", "X", "X", " ", "X", " ", "X"],
+    ["X", " ", " ", " ", " ", " ", " ", " ", " ", "X", " ", "X"],
+    ["X", "X", "X", "X", "X", "X", "X", "X", "X", "X", " ", "X"],
+    ["X", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "X"],
+    ["X", " ", "X", "X", "X", "X", "X", "X", "X", "X", "X", "E"],
+]
+
+create_maze(maze)
+player = create_player()
+setup_controls()
+
+turtle.exitonclick()
