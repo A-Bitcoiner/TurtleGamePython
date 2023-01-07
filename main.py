@@ -28,19 +28,19 @@ def create_maze(maze):
     draw_maze(t, maze)
 
 def move_up():
-    player.setheading(0)
+    player.setheading(90)
     player.forward(20)
 
 def move_down():
-    player.setheading(180)
-    player.forward(20)
-
-def move_left():
     player.setheading(270)
     player.forward(20)
 
+def move_left():
+    player.setheading(180)
+    player.forward(20)
+
 def move_right():
-    player.setheading(90)
+    player.setheading(0)
     player.forward(20)
 
 def setup_controls():
